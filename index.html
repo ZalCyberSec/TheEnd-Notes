@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan ZalStecu📘</title>
+    <style>
+        :root {
+            --dark-blue: #1A1A2E;
+            --purple: #5E2B97;
+            --black: #0A0A0A;
+            --white: #FFFFFF;
+            --light-gray: #E2E2E2;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-blue);
+            color: var(--light-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--white);
+            font-weight: 300;
+            font-size: 1.1rem;
+        }
+        
+        .note-form {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .note-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(94, 43, 151, 0.1);
+            border: 1px solid var(--purple);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        .note-input:focus {
+            outline: none;
+            border-color: var(--white);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            background: var(--purple);
+            color: var(--white);
+        }
+        
+        .btn:hover {
+            background: var(--white);
+            color: var(--purple);
+            border: 1px solid var(--purple);
+        }
+        
+        .notes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .note-card {
+            background: rgba(10, 10, 10, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--purple);
+        }
+        
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .note-content {
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: var(--light-gray);
+        }
+        
+        .note-date {
+            font-size: 0.75rem;
+            color: var(--light-gray);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(231, 76, 60, 0.2);
+            color: rgba(231, 76, 60, 0.8);
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(231, 76, 60, 0.4);
+            color: var(--white);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state img {
+            width: 150px;
+            margin-bottom: 30px;
+            opacity: 0.6;
+        }
+        
+        .empty-state h3 {
+            font-weight: 300;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light-gray);
+        }
+        
+        .empty-state p {
+            color: var(--light-gray);
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .note-form {
+                padding: 20px;
+            }
+            
+            .notes-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The End — Notes</h1>
+            <p class="subtitle">Simpan Catatan Penting Anda!</p>
+        </header>
+        
+        <div class="note-form">
+            <textarea class="note-input" placeholder="Tulis pemikiran brilian Anda di sini..."></textarea>
+            <button class="btn" id="saveNote">Simpan Catatan</button>
+        </div>
+        
+        <div id="notesDisplay">
+            <div class="empty-state">
+                <img src="https://placehold.co/200x200/1A1A2E/E2E2E2?text=Notebook+Icon" alt="Sleek notebook illustration" />
+                <h3>Lembar Masih Kosong</h3>
+                <p>Mulai menulis catatan pertama yang akan disimpan dengan aman.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Luxury Notes App
+        const NotesApp = (() => {
+            // DOM Elements
+            const elements = {
+                noteInput: document.querySelector('.note-input'),
+                saveBtn: document.getElementById('saveNote'),
+                notesDisplay: document.getElementById('notesDisplay')
+            };
+            
+            // Load notes from localStorage
+            const loadNotes = () => {
+                const notes = JSON.parse(localStorage.getItem('premium-notes')) || [];
+                return notes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            };
+            
+            // Save notes to localStorage
+            const saveNotes = (notes) => {
+                localStorage.setItem('premium-notes', JSON.stringify(notes));
+            };
+            
+            // Format date
+            const formatDate = (dateString) => {
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return new Date(dateString).toLocaleDateString('id-ID', options);
+            };
+            
+            // Display notes in the UI
+            const displayNotes = () => {
+                const notes = loadNotes();
+                
+                if (notes.length === 0) {
+                    elements.notesDisplay.innerHTML = `
+                        <div class="empty-state">
+                            <img src="https://placehold.co/200x200/1A1A2E/E2E2E2?text=Notebook+Icon" alt="Sleek notebook illustration" />
+                            <h3>Lembar Masih Kosong</h3>
+                         
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                notes.forEach(note => {
+                    html += `
+                        <div class="note-card">
+                            <button class="delete-btn" data-id="${note.id}">×</button>
+                            <span class="note-date">${formatDate(note.date)}</span>
+                            <div class="note-content">${note.content}</div>
+                        </div>
+                    `;
+                });
+                
+                elements.notesDisplay.innerHTML = html;
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', deleteNote);
+                });
+            };
+            
+            // Add a new note
+            const addNote = () => {
+                const content = elements.noteInput.value.trim();
+                if (!content) return;
+                
+                const notes = loadNotes();
+                const newNote = {
+                    id: Date.now(),
+                    content: content,
+                    date: new Date().toISOString()
+                };
+                
+                notes.unshift(newNote);
+                saveNotes(notes);
+                elements.noteInput.value = '';
+                displayNotes();
+            };
+            
+            // Delete a note
+            const deleteNote = (e) => {
+                const id = parseInt(e.target.getAttribute('data-id'));
+                let notes = loadNotes();
+                notes = notes.filter(note => note.id !== id);
+                saveNotes(notes);
+                displayNotes();
+            };
+            
+            // Initialize the app
+            const init = () => {
+                displayNotes();
+                
+                // Event Listeners
+                elements.saveBtn.addEventListener('click', addNote);
+                
+                elements.noteInput.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        addNote();
+                    }
+                });
+            };
+            
+            return {
+                init
+            };
+        })();
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', NotesApp.init);
+    </script>
+</body>
+</html>
